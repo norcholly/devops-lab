@@ -1,0 +1,7 @@
+services:
+  web-sitem:
+    build: /home/norcholly/docker/web-site
+    ports:
+      - "9090:80"
+    container_name: web-site
+    restart: always
