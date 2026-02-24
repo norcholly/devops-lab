@@ -1,0 +1,13 @@
+# dış kapı
+apiVersion: v1
+kind: Service
+metadata:
+  name: port
+spec:
+  type: NodePort  # sunucunun dış IP'sinden bir kapı aç
+  selector:
+    app: deployment  # dışarıdan gelen istekleri, "deployment" etiketli podlara gönder
+  ports:
+  - port: 80  # dışarıdan gelen istekleri karşılama portu
+    targetPort: 80  # hedef, yani nginx portu
+    nodePort: 31005  # en dış port. tarayıcıdan bu portla podlara erişilebilir

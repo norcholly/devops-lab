@@ -1,0 +1,29 @@
+# fiziksel disk ayarlama
+
+apiVersion: v1
+kind: PersistentVolume  # kalıcı depolama alanı
+metadata:
+  name: persistent-volume
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi  # disk boyutu
+  accessModes:
+    - ReadWriteOnce  # sadece tek bir sunucu aynı anda yazabilir
+  hostPath:
+    path: "/mnt/project"  # hangi klasör depolama alanı olarak kullanılacak?
+
+---
+# fiziksel disk talebi
+
+apiVersion: v1
+kind: PersistentVolumeClaim  # kalıcı depolama talebi
+metadata:
+  name: persistent-volume-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  # ne kadar alan lazım?

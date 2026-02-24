@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment  # podları yöneten servis
+metadata:
+  name: deployments
+spec:
+  replicas: 2  # başlangıçta kaç pod olsun?
+  selector:
+    matchLabels:
+      app: deployment  # "deployment" etiketli podlar bu servise aittir
+
+  # pod şablonu
+  template:
+    metadata:
+      labels:
+        app: deployment  # üretilen her pod'a "deployment" etiketi koyar
+    spec:
+      containers:  # podların içindeki konteynerler:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80  # nginx, 80 numaralı porttan yayın yapacak
+        resources:
+          requests:
+            cpu: "100m"  # bir pod'un normalde ihtiyaç duyduğu güç ne kadar olsun?
+          limits:
+            cpu: "200m"  # bir pod'un asla geçmeyeceği üst sınır güç ne kadar olsun?
+
+        # konteynerde hangi diski çalıştıralım?
+        volumeMounts:
+        - name: volume  # "volume" etiketiyle tanımladığım diski al ve:
+          mountPath: /usr/share/nginx/html  # pod'un içindeki bu klasöre bağla.
+
+      # diskin içeriği ne olacak?
+      volumes:
+      - name: volume  # volumeMounts "volume" etiketiyle bu diski referans alacak
+        persistentVolumeClaim:  # storage.yaml'de ayarladığımız bu diskin içindekileriyle, "volume" etiketini doldur
+          claimName: persistent-volume-claim
