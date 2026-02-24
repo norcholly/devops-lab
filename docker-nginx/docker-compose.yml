@@ -8,3 +8,6 @@ services:
     volumes:
       - /mnt/project:/usr/share/nginx/html
 
+# not: k3s kullanıldığı takdirde bu dosyaya ihtiyaç yoktur.
+# k3s klasöründe, deployment.yaml içindeki template kısmında
+# bu yml dosyasındaki aynı işlemler aynen yapılmaktadır.
