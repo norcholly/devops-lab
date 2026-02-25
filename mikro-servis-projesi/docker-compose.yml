@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+
+  main:
+    build: .  # bulunduğumuz klasördeki Dockerfile'den kurulumu yap
+    ports:
+      - "8000:5000"  # 8000'den gelen istekleri 5000'e yönlendir
+    depends_on:
+      - redis  # önce redis çalışmalı
+
+  redis:
+    image: "redis:alpine"
