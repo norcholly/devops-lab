@@ -20,7 +20,9 @@ pipeline {
         
         stage('notification') {
             steps {
-                emailext body: 'The build numbered "$BUILD_NUMBER" on the "$BRANCH_NAME" branch named "$JOB_NAME" has been completed.', subject: 'Build $BUILD_NUMBER Completed', to: 'alirfandogan@gmail.com'
+                emailext body: "The build numbered ${env.BUILD_NUMBER} on the ${env.GIT_BRANCH} branch named ${env.JOB_NAME} has been completed.", 
+                 subject: "Build ${env.BUILD_NUMBER} Completed", 
+                 to: "alirfandogan@gmail.com"
             }
         }
     }
