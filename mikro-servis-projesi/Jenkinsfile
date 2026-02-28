@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone') {
+            steps {
+                git branch: '$branch_name', url: 'https://github.com/norcholly/devops-lab.git'
+                echo ' ===== CLONE COMPLETED ===== '
+            }
+        }
+        
+        stage('build') {
+            steps {
+                dir('mikro-servis-projesi') {
+                    sh 'docker compose up -d --build'
+                    echo ' ===== BUILD COMPLETED ====='
+                }
+            }
+        }
+        
+        stage('notification') {
+            steps {
+                emailext body: 'The build numbered "$BUILD_NUMBER" on the "$BRANCH_NAME" branch named "$JOB_NAME" has been completed.', subject: 'Build $BUILD_NUMBER Completed', to: 'alirfandogan@gmail.com'
+            }
+        }
+    }
+}
